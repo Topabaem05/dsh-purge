@@ -21,6 +21,7 @@ const CORDIS = path.join(PLUGIN, "node_modules/@deepseek-ai/cordis/lib/index.js"
 
 const { Context, Service } = await import(pathToFileURL(CORDIS).href);
 const { installWebServer } = await import(pathToFileURL(PLUGIN + "/lib/index.js").href);
+const { loopbackTestRequest } = await import(pathToFileURL(PLUGIN + "/lib/local-api-guard.js").href);
 
 // Electron on Windows retains ASAR handles until process exit. The explicit
 // runtime harness owns its fresh parent directory and verifies cleanup after
@@ -148,7 +149,7 @@ async function boot(fx) {
         this.body = body;
       },
     };
-    await spec.handler({ method: "GET", headers: {} }, response);
+    await spec.handler(loopbackTestRequest({ method: "GET" }), response);
     assert.equal(response.code, 200, String(response.body).slice(0, 300));
     return JSON.parse(response.body);
   };
