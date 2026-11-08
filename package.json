@@ -119,6 +119,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "purgeSecurity": {
+    "localApiAuth": 1
+  },
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.0.1"
   },
